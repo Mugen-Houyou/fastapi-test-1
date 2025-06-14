@@ -1,5 +1,4 @@
 # app/schemas/post.py
-
 """
 게시글(Post) 관련 Pydantic 스키마 정의
 - PostCreate   : 게시글 생성 요청 DTO
@@ -16,7 +15,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 
-# ────────────────────────── 공통 하위 스키마 ──────────────────────────
+# 공통 하위 스키마 
 class UserBrief(BaseModel):
     """작성자 요약 정보"""
     id: int
@@ -36,7 +35,7 @@ class FileMeta(BaseModel):
         orm_mode = True
 
 
-# ────────────────────────── 요청(Request) ───────────────────────────
+# 요청(Request) 
 class _PostBase(BaseModel):
     title: str = Field(..., max_length=255)
     content: str
@@ -54,7 +53,7 @@ class PostUpdate(BaseModel):
     content: Optional[str] = None
 
 
-# ────────────────────────── 응답(Response) ──────────────────────────
+# 응답(Response)
 class PostOut(_PostBase):
     """게시글 단건 상세 응답"""
     id: int

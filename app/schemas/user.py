@@ -1,4 +1,8 @@
 # app/schemas/user.py
+"""
+유저(User) 관련 Pydantic 스키마 정의
+- UserOut : 유저 정보 조회 응답 DTO
+"""
 
 from pydantic import BaseModel, EmailStr
 from datetime import datetime

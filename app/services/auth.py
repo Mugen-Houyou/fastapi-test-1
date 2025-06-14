@@ -37,7 +37,7 @@ def register_user(db: Session, payload: SignUpRequest) -> SignUpResponse:
 
 def authenticate_user(db: Session, payload: LoginRequest) -> TokenPair:
     """
-    로그인 → access + refresh 동시 발급
+    로그인 시, access + refresh 쌍으로 발급
     """
     user = db.query(User).filter(User.username == payload.username).first()
     if not user or not verify_password(payload.password, str(user.hashed_password)):
@@ -46,17 +46,17 @@ def authenticate_user(db: Session, payload: LoginRequest) -> TokenPair:
             detail="Incorrect username or password."
         )
 
-    claims = {"sub": str(user.id), "username": user.username}
+    new_claims = {"sub": str(user.id), "username": user.username}
 
     return TokenPair(
-        access_token=create_access_token(claims),
-        refresh_token=create_refresh_token(claims),
+        access_token=create_access_token(new_claims),
+        refresh_token=create_refresh_token(new_claims),
     )
 
 
 def refresh_access_token(refresh_token: str) -> TokenPair:
     """
-    클라이언트가 제출한 refresh_token을 검증 후 새 access/refresh 쌍 재발급
+    클라이언트가 제출한 refresh_token을 검증 후, 새 access+refresh 쌍 재발급
     참고! "쌍", 즉, 둘 다 재발급하는 것!
     """
     try:

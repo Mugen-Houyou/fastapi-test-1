@@ -1,4 +1,12 @@
 # app/schemas/auth.py
+"""
+인증(Auth) 관련 Pydantic 스키마 정의
+- SignUpRequest    : 회원 가입 요청 DTO
+- SignUpResponse   : 회원 가입 성공 응답 DTO
+- LoginRequest     : 로그인 요청 DTO
+- TokenPair        : 로그인 및 토큰 갱신 응답 DTO (access + refresh)
+- RefreshToken     : 리프레시 토큰 요청 DTO
+"""
 
 from pydantic import BaseModel, EmailStr, Field
 

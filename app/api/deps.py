@@ -93,7 +93,7 @@ def get_current_user_oauth2(
             user_id = int(user_id)
         except (TypeError, ValueError):
             raise credentials_exception
-        # 위 부분의 이전 코드:
+        # 참고 - 위 부분의 이전 코드:
         # user_id: int = payload.get("sub")
         # if user_id is None:
         #     raise credentials_exception

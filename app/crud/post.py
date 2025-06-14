@@ -107,7 +107,7 @@ def _authorize(post: Post, requester_id: int) -> None:
 
     # 관리자 여부 확인
     user: User | None = post.author  # lazy-loaded 관계로부터 Author 객체
-    if user is None or not getattr(user, "is_admin", False):
+    if user is None or not getattr(user, "is_admin", False): # TODO: 현재 admin만 허용 가능 - 작성자도 할 수 있도록!!
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You do not have permission to modify this post",

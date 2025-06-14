@@ -10,8 +10,10 @@ from typing import cast
 from pathlib import Path
 from fastapi import UploadFile, HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.db.models.file import File
 from app.db.models.user import User
+from app.schemas.file import FileOut
 
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
@@ -21,7 +23,7 @@ def save_file(
     file: UploadFile,
     post_id: int,
     uploader_id: int,
-) -> File:
+) -> FileOut:
     """
     파일 저장 및 메타데이터를 DB에 기록
     """
@@ -51,7 +53,16 @@ def save_file(
     db.add(file_meta)
     db.commit()
     db.refresh(file_meta)
-    return file_meta
+    # file_url = f"/api/v1/files/{file_meta.id}/download"
+    return FileOut(
+        id=file_meta.id,
+        filename=file_meta.filename,
+        # url=file_url,
+        content_type=file_meta.content_type,
+        size=file_meta.size,
+        created_at=file_meta.created_at,
+    )
+    # return file_meta
 
 def get_file_stream(db: Session, file_id: int) -> tuple[Path, File]:
     """
