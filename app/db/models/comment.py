@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 class Comment(Base):
     __tablename__ = "comments"
 
-    # ────────────────────────── 컬럼 ──────────────────────────
+    # 컬럼 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     content: Mapped[str] = mapped_column(Text, nullable=False)
 
@@ -55,7 +55,7 @@ class Comment(Base):
         server_default=func.now(), onupdate=func.now(), nullable=False
     )
 
-    # ────────────────────────── 관계 ──────────────────────────
+    # 관계 
     author: Mapped["User"] = relationship(
         "User",
         back_populates="comments",
@@ -81,6 +81,6 @@ class Comment(Base):
         order_by="Comment.created_at.asc()",
     )
 
-    # ────────────────────────── 메타 ──────────────────────────
+    # 메타데이터
     def __repr__(self) -> str:  # pragma: no cover
         return f"<Comment id={self.id} post_id={self.post_id} depth={self.depth}>"

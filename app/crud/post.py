@@ -77,7 +77,7 @@ def create_post(db: Session, payload, author_id: int) -> Post:
 # 수정 ~~
 def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:
     """
-    게시글 수정 – 작성자 본인 또는 관리자만 허용
+    게시글 수정 - 작성자 본인 또는 관리자만 허용
     """
     post = get_post(db, post_id)  # 404 처리 내장
 

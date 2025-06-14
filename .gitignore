@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,django,flask
 
 uploads
+alembic/**
 alembic.ini
 
 ### Django/FastAPI ###

@@ -13,17 +13,24 @@ if TYPE_CHECKING:
     from app.db.models.file import File
 
 class User(Base):
+    """
+    유저 테이블
+    """
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)  # 이거는 DB상 index 개념!!  
+
+    # 컬럼
+    id = Column(Integer, primary_key=True, index=True)  # 이거는 DB상 index 개념!!
     username = Column(String(32), unique=True, nullable=False, index=True) # 이게 한국어로 흔히 말하는 '아이디'.
-    lastname = Column(String(128), unique=False, nullable=True, index=True) # 유저의 성씨
+    lastname = Column(String(128), unique=False, nullable=True, index=False) # 유저의 성씨
     firstname = Column(String(128), unique=False, nullable=False, index=True) # 유저의 이름 - 얘는 필수
     email = Column(String(128), unique=True, nullable=False, index=True)
     hashed_password = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
     is_admin = Column(Boolean, default=False, nullable=False)
+    # Automatically sets the creation timestamp when a new record is added
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
+    # 관계
     # User가 쓴 모든 posts
     posts: Mapped[list["Post"]] = relationship(
         "Post",
@@ -51,6 +58,7 @@ class User(Base):
         lazy="selectin",
     )
 
+    # 메타데이터
     # Optional: 유저 정보 표시
     def __repr__(self):
         return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"

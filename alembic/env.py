@@ -1,3 +1,4 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -5,7 +6,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.db.base import Base
+from app.db.base import Base  # Base = declarative_base()로 정의된 객체
+from app.db.session import engine  # SQLAlchemy 엔진
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -40,9 +43,11 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    # url = config.get_main_option("sqlalchemy.url")
+
+    DB_URL = os.getenv("DB_URL")
     context.configure(
-        url=url,
+        url=DB_URL,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},

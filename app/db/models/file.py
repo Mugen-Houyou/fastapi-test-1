@@ -30,7 +30,7 @@ class File(Base):
     """
     __tablename__ = "files"
 
-    # ────────────────────────── 컬럼 ──────────────────────────
+    # 컬럼 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
 
     # 원본 파일명
@@ -60,7 +60,7 @@ class File(Base):
         server_default=func.now(), nullable=False
     )
 
-    # ────────────────────────── 관계 ──────────────────────────
+    # 관계 
     post: Mapped["Post"] = relationship(
         "Post",
         back_populates="files",
@@ -71,6 +71,6 @@ class File(Base):
         lazy="joined",
     )
 
-    # ────────────────────────── 메타 ──────────────────────────
+    # 메타데이터
     def __repr__(self) -> str:  # pragma: no cover
         return f"<File id={self.id} filename={self.filename!r}>"
