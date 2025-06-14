@@ -43,20 +43,25 @@ class _PostBase(BaseModel):
 
 class PostCreate(_PostBase):
     """게시글 생성 요청"""
+    title: str
+    content: str
+    board_id: int  # 게시판 지정 추가!
     # 파일은 multipart/form-data 로 별도 업로드하므로 필드 없음
-    pass
+    # pass
 
 
 class PostUpdate(BaseModel):
     """게시글 부분 수정 요청 (모든 필드 Optional)"""
     title: Optional[str] = Field(None, max_length=255)
     content: Optional[str] = None
+    board_id: int  # 게시판 지정 추가!
 
 
 # 응답(Response)
 class PostOut(_PostBase):
     """게시글 단건 상세 응답"""
     id: int
+    board_id: int  # 게시판 지정 추가!
     author: UserBrief
     files: List[FileMeta] = []
     created_at: datetime
@@ -69,6 +74,7 @@ class PostOut(_PostBase):
 class PostListOut(BaseModel):
     """게시글 목록(요약) 응답"""
     id: int
+    board_id: int  # 게시판 지정 추가!
     title: str
     author: UserBrief
     created_at: datetime

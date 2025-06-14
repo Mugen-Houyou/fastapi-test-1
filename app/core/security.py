@@ -73,7 +73,7 @@ def create_refresh_token(
 
 def verify_refresh_token(token: str) -> dict[str, Any]:
     """
-    Refresh 토큰 검증 & 페이로드 반환. 만료·위조 시 JWTError 발생
+    Refresh 토큰 검증 & 페이로드 반환. 만료·위조 시 JWTError 발생.
     """
     return jwt.decode(token, REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
 # ~~ JWT token 관련

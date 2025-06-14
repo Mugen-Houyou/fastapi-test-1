@@ -19,6 +19,17 @@ from app.db.models.file import File
 
 
 # 조회 ~~
+def get_posts_by_board(db: Session, board_id: int, page: int = 1, size: int = 10):
+    offset = (page - 1) * size
+    return (
+        db.query(Post)
+        .filter(Post.board_id == board_id)
+        .order_by(desc(Post.created_at))
+        .offset(offset)
+        .limit(size)
+        .all()
+    )
+
 def get_posts(db: Session, page: int = 1, size: int = 10) -> Sequence[Post]:
     """
     게시글 목록 조회 (기본: 최신순)
@@ -46,7 +57,6 @@ def get_post(db: Session, post_id: int) -> Post:
     return post
 # ~~ 조회
 
-
 # 생성 ~~
 def create_post(db: Session, payload, author_id: int) -> Post:
     """
@@ -56,6 +66,7 @@ def create_post(db: Session, payload, author_id: int) -> Post:
         title=payload.title,
         content=payload.content,
         author_id=author_id,
+        board_id=payload.board_id
     )
     db.add(post)
     db.commit()
@@ -76,6 +87,8 @@ def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:
         post.title = payload.title
     if payload.content is not None:
         post.content = payload.content
+    if payload.board_id is not None:
+        post.board_id = payload.board_id
 
     db.commit()
     db.refresh(post)
@@ -86,7 +99,7 @@ def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:
 # 삭제 ~~
 def delete_post(db: Session, post_id: int, requester_id: int) -> None:
     """
-    게시글 삭제 – 작성자 본인 또는 관리자만 허용
+    게시글 삭제 - 작성자 본인 또는 관리자만 허용
     """
     post = get_post(db, post_id)  # 404 처리 내장
 

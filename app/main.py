@@ -47,8 +47,8 @@ async def root():
 @app.on_event("startup")
 async def on_startup():
     ##################################################################
-    # ↓ 아래는 개발·테스트 환경에서만 사용! 운영 중 변동 시 Alembic 사용 권장! ↓ #
-    # Base.metadata.create_all(bind=engine)                          #
+    # ↓ 아래는 개발·테스트 환경에서만 사용! 운영 중 변동은 Alembic 사용 권장! ↓  #
+    Base.metadata.create_all(bind=engine)                          #
     # ↑ 위는 DDL을 실행함!!!!!!! 한 번만 실행하고 다음에는 반드시 주석 처리!!! ↑ #
     ##################################################################
 
