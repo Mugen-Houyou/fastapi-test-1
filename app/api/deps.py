@@ -12,8 +12,8 @@ from app.schemas.user import UserOut
 # 1. DB 세션 Dependency
 def get_db() -> Generator:
     """
-    요청 시마다 DB 세션을 생성하고,
-    요청이 끝나면 세션을 종료합니다.
+    요청 들어올 때마다 DB 세션을 생성하고,
+    요청이 끝나면 세션을 종료
     """
     db = SessionLocal()
     try:
@@ -23,15 +23,55 @@ def get_db() -> Generator:
 
 # 2. JWT 인증된 현재 유저 반환 Dependency
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+bearer_scheme = HTTPBearer()
+
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
     db = Depends(get_db)
 ) -> UserOut:
     """
-    JWT 토큰으로부터 현재 로그인된 유저 정보를 반환합니다.
+    HTTP Bearer 토큰으로부터 현재 로그인된 유저 정보를 반환
+    """
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(
+            token,
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.ALGORITHM]
+        )
+        user_id = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+        try:
+            user_id = int(user_id)
+        except (TypeError, ValueError):
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+
+    user = get_user_by_id(db, user_id=user_id)
+    if user is None:
+        raise credentials_exception
+    return user
+
+
+def get_current_user_oauth2(
+    # token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    db = Depends(get_db)
+) -> UserOut:
+    """
+    JWT 토큰으로부터 현재 로그인된 유저 정보를 반환
     """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

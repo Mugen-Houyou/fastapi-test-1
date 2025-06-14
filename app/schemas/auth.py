@@ -7,6 +7,8 @@ class SignUpRequest(BaseModel):
     회원 가입 요청 스키마
     """
     username: str
+    lastname: str
+    firstname: str
     email: EmailStr
     password: str
 

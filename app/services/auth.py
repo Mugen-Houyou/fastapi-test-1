@@ -20,6 +20,8 @@ def register_user(db: Session, payload: SignUpRequest) -> SignUpResponse:
         )
     user = User(
         username=payload.username,
+        lastname=payload.lastname,
+        firstname=payload.firstname,
         email=payload.email,
         hashed_password=get_password_hash(payload.password)
     )
