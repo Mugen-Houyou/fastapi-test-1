@@ -50,26 +50,33 @@ class Post(Base):
     )
 
     # ────────────────────────── 관계 ──────────────────────────
-    author: Mapped["User"] = relationship(
+    author: Mapped["User"] = relationship( # Post ➜ User 방향의 관계 컬렉션 —— 1개의 게시글이 1개의 유저를 가짐
         "User",
         back_populates="posts",
         lazy="joined",
     )
 
-    comments: Mapped[list["Comment"]] = relationship(
+    comments: Mapped[list["Comment"]] = relationship( # Post ➜ list["Comment"] 방향의 관계 컬렉션 —— 1개의 게시글이 n개의 댓글을 가짐
         "Comment",
         back_populates="post",
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
 
-    files: Mapped[list["File"]] = relationship(
-        "File",
+    files: Mapped[list["File"]] = relationship( # Post ➜ list["File"] 방향의 관계 컬렉션 —— 1개의 게시글이 n개의 파일을 가짐
+        "File", 
         back_populates="post",
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
 
     # ────────────────────────── 메타 ──────────────────────────
+    # Returns a string representation of the Post instance for debugging and logging purposes.
+    # The returned string includes the class name and key identifying attributes (`id` and `title`), 
+    # which helps developers quickly understand which specific Post object is being referenced.
     def __repr__(self) -> str:  # pragma: no cover
+        """
+        이 __repr__ 메서드는 Post 객체의 전체 데이터(본문, 작성자 등)가 아니라,
+        객체를 구분할 수 있는 id와 title만을 보여줌.
+        """
         return f"<Post id={self.id!r} title={self.title!r}>"

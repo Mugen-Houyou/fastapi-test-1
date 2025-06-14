@@ -8,12 +8,13 @@ from passlib.context import CryptContext
 
 from app.core.config import settings
 
+# 변수 관련 ~~
 ACCESS_SECRET_KEY: str = getattr(
-    settings, "JWT_ACCESS_SECRET_KEY", settings.JWT_ACCESS_SECRET_KEY  # 없으면 access와 동일 시크릿
+    settings, "JWT_ACCESS_SECRET_KEY", settings.JWT_ACCESS_SECRET_KEY
 )
 
 REFRESH_SECRET_KEY: str = getattr(
-    settings, "JWT_REFRESH_SECRET_KEY", settings.JWT_REFRESH_SECRET_KEY 
+    settings, "JWT_REFRESH_SECRET_KEY", settings.JWT_REFRESH_SECRET_KEY    # TODO: 없으면 access와 동일 시크릿으로 하자.
 )
 
 ACCESS_TOKEN_EXPIRE_MINUTES: int = getattr(
@@ -25,6 +26,8 @@ REFRESH_TOKEN_EXPIRE_DAYS: int = getattr(
 )
 
 ALGORITHM: str = settings.ALGORITHM
+# ~~ 변수 관련
+
 
 # Password hashing / verification ~~
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -35,7 +38,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     DB에 저장된 bcrypt 해시(hashed_password)와 일치하는지 확인
     """
     return pwd_context.verify(plain_password, hashed_password)
-
 
 def get_password_hash(password: str) -> str:
     """
@@ -78,10 +80,8 @@ def verify_refresh_token(token: str) -> dict[str, Any]:
 
 
 # 내부 헬퍼 ~~
-
 def _create_jwt(data: Dict[str, Any], delta: timedelta, secret: str) -> str:
     to_encode = data.copy()
     to_encode.update({"exp": datetime.utcnow() + delta})
     return jwt.encode(to_encode, secret, algorithm=ALGORITHM)
-
 # ~~ 내부 헬퍼

@@ -2,6 +2,8 @@
 
 from typing import Generator
 from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import JWTError, jwt
 
 from app.db.session import SessionLocal
@@ -9,7 +11,7 @@ from app.core.config import settings
 from app.crud.user import get_user_by_id
 from app.schemas.user import UserOut
 
-# 1. DB 세션 Dependency
+# DB 세션 Dependency
 def get_db() -> Generator:
     """
     요청 들어올 때마다 DB 세션을 생성하고,
@@ -21,13 +23,10 @@ def get_db() -> Generator:
     finally:
         db.close()
 
-# 2. JWT 인증된 현재 유저 반환 Dependency
-from fastapi.security import OAuth2PasswordBearer
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
+# JWT 인증된 현재 유저 반환 Dependency
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 bearer_scheme = HTTPBearer()
-
 
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
@@ -46,7 +45,7 @@ def get_current_user(
     try:
         payload = jwt.decode(
             token,
-            settings.JWT_SECRET_KEY,
+            settings.JWT_ACCESS_SECRET_KEY,
             algorithms=[settings.ALGORITHM]
         )
         user_id = payload.get("sub")
@@ -71,6 +70,7 @@ def get_current_user_oauth2(
     db = Depends(get_db)
 ) -> UserOut:
     """
+    중요! 이건 OAuth2 방식. HTTPBearer 말고 OAuth2PasswordBearer 쓰려면 이걸로 할 것.
     JWT 토큰으로부터 현재 로그인된 유저 정보를 반환
     """
     credentials_exception = HTTPException(
@@ -78,10 +78,12 @@ def get_current_user_oauth2(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    token = credentials.credentials
+
     try:
         payload = jwt.decode(
             token,
-            settings.JWT_SECRET_KEY,
+            settings.JWT_ACCESS_SECRET_KEY,
             algorithms=[settings.ALGORITHM]
         )
         user_id = payload.get("sub")
@@ -103,7 +105,7 @@ def get_current_user_oauth2(
         raise credentials_exception
     return user
 
-# 3. (Optional) 관리자 권한 확인용 Dependency
+# 관리자 권한 확인용 Dependency - Optional
 def get_current_admin(
     current_user: UserOut = Depends(get_current_user)
 ) -> UserOut:

@@ -51,7 +51,6 @@ class User(Base):
         lazy="selectin",
     )
 
-
     # Optional: 유저 정보 표시
     def __repr__(self):
         return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"
