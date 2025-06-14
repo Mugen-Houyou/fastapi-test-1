@@ -6,6 +6,7 @@ from app.db.models.board import Board
 
 router = APIRouter()
 
+
 @router.post("/", response_model=BoardOut)
 def create_board(payload: BoardCreate, db: Session = Depends(get_db)):
     board = Board(**payload.dict())

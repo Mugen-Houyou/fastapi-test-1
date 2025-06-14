@@ -19,10 +19,10 @@ from app.db.models.post import Post
 from app.db.models.user import User
 
 
-# ────────────────────────── 조회 ──────────────────────────
+# 조회 
 def get_comments_by_post(db: Session, post_id: int) -> Sequence[Comment]:
     """
-    특정 게시글의 **최상위 댓글** 목록 조회 (대댓글 제외)
+    특정 게시글의 **최상위 댓글** 목록 조회 (즉, 대댓글 제외)
     """
     return (
         db.query(Comment)
@@ -57,7 +57,7 @@ def _get_comment_or_404(db: Session, comment_id: int) -> Comment:
     return comment
 
 
-# ────────────────────────── 생성 ──────────────────────────
+# 생성 
 def create_comment(db: Session, post_id: int, payload, author_id: int) -> Comment:
     """
     게시글에 **최상위 댓글** 생성
@@ -100,10 +100,10 @@ def create_reply(db: Session, parent_id: int, payload, author_id: int) -> Commen
     return reply
 
 
-# ────────────────────────── 수정 ──────────────────────────
+# 수정 
 def update_comment(db: Session, comment_id: int, payload, requester_id: int) -> Comment:
     """
-    댓글/대댓글 수정 – 작성자 본인 또는 관리자만 허용
+    댓글/대댓글 수정 - 작성자 본인 또는 관리자만 허용
     """
     comment = _get_comment_or_404(db, comment_id)
     _authorize(comment, requester_id)
@@ -116,10 +116,10 @@ def update_comment(db: Session, comment_id: int, payload, requester_id: int) -> 
     return comment
 
 
-# ────────────────────────── 삭제 ──────────────────────────
+# 삭제 
 def delete_comment(db: Session, comment_id: int, requester_id: int) -> None:
     """
-    댓글/대댓글 삭제 – 작성자 본인 또는 관리자만 허용
+    댓글/대댓글 삭제 - 작성자 본인 또는 관리자만 허용
     """
     comment = _get_comment_or_404(db, comment_id)
     _authorize(comment, requester_id)
@@ -128,7 +128,7 @@ def delete_comment(db: Session, comment_id: int, requester_id: int) -> None:
     db.commit()
 
 
-# ────────────────────────── 내부 권한 헬퍼 ──────────────────────────
+# 내부 권한 헬퍼 ~~
 def _authorize(comment: Comment, requester_id: int) -> None:
     """
     작성자 본인 또는 관리자 권한 확인
@@ -142,3 +142,4 @@ def _authorize(comment: Comment, requester_id: int) -> None:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You do not have permission to modify this comment",
         )
+# ~~ 내부 권한 헬퍼

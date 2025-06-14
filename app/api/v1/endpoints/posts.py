@@ -9,6 +9,7 @@ from app.crud import post as post_crud
 
 router = APIRouter()
 
+
 @router.get("/all_posts", response_model=List[PostListOut])
 def list_posts_all(
     page: int = Query(1, ge=1),

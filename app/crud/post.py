@@ -57,6 +57,7 @@ def get_post(db: Session, post_id: int) -> Post:
     return post
 # ~~ 조회
 
+
 # 생성 ~~
 def create_post(db: Session, payload, author_id: int) -> Post:
     """
@@ -73,6 +74,7 @@ def create_post(db: Session, payload, author_id: int) -> Post:
     db.refresh(post)
     return post
 # ~~ 생성
+
 
 # 수정 ~~
 def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:

@@ -8,6 +8,7 @@ from app.services.auth import register_user, authenticate_user, refresh_access_t
 
 router = APIRouter()
 
+
 @router.post("/signup", response_model=SignUpResponse, status_code=status.HTTP_201_CREATED)
 def signup(payload: SignUpRequest, db: Session = Depends(get_db)):
     """회원 가입"""

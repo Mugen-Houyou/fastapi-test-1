@@ -8,6 +8,7 @@ from app.schemas.file import FileOut
 
 router = APIRouter()
 
+
 @router.post("/posts/{post_id}/files", response_model=FileOut, status_code=status.HTTP_201_CREATED)
 def upload_file(
     post_id: int,

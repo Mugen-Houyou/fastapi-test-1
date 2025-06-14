@@ -1,6 +1,6 @@
 # app/core/security.py
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Union
 
 from jose import jwt
@@ -34,14 +34,14 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
-    사용자가 입력한 평문 비밀번호(plain_password)가
+    사용자가 입력한 평문 패스워드(plain_password)가
     DB에 저장된 bcrypt 해시(hashed_password)와 일치하는지 확인
     """
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
     """
-    평문 비밀번호를 bcrypt 알고리즘으로 해싱하여 반환
+    평문 패스워드를 bcrypt 알고리즘으로 해싱하여 반환
     """
     return pwd_context.hash(password)
 # ~~ Password hashing / verification
@@ -82,6 +82,6 @@ def verify_refresh_token(token: str) -> dict[str, Any]:
 # 내부 헬퍼 ~~
 def _create_jwt(data: Dict[str, Any], delta: timedelta, secret: str) -> str:
     to_encode = data.copy()
-    to_encode.update({"exp": datetime.utcnow() + delta})
+    to_encode.update({"exp": datetime.now(timezone.utc) + delta})
     return jwt.encode(to_encode, secret, algorithm=ALGORITHM)
 # ~~ 내부 헬퍼
