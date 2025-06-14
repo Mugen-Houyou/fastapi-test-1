@@ -33,11 +33,22 @@ class LoginRequest(BaseModel):
     password: str
 
 
-class Token(BaseModel):
+class TokenPair(BaseModel):
     """
-    JWT 토큰 응답 스키마
+    로그인 & 리프레시 응답: access + refresh
     """
     access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+
+    class Config:
+        orm_mode = True
+
+class RefreshToken(BaseModel):
+    """
+    Refresh + access token 쌍을 요청하기 위한 스키마
+    """
+    refresh_token: str
     token_type: str = "bearer"
 
     class Config:

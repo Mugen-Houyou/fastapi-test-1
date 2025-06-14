@@ -3,8 +3,8 @@
 """
 게시글(Post) CRUD 레이어
 
-엔드포인트(service)단에서 호출하여 DB 접근 세부 로직을 분리·재사용하도록 한다.
-권한 체크(작성자·관리자 여부)도 이곳에서 수행한다.
+엔드포인트(service)단에서 호출하여 DB 접근 세부 로직을 분리·재사용하도록 함
+권한 체크(작성자·관리자 여부)도 이곳에서 수행
 """
 
 from typing import List, Sequence
@@ -18,7 +18,7 @@ from app.db.models.user import User
 from app.db.models.file import File
 
 
-# ────────────────────────── 조회 ──────────────────────────
+# 조회 ~~
 def get_posts(db: Session, page: int = 1, size: int = 10) -> Sequence[Post]:
     """
     게시글 목록 조회 (기본: 최신순)
@@ -44,9 +44,10 @@ def get_post(db: Session, post_id: int) -> Post:
             detail=f"Post {post_id} not found",
         )
     return post
+# ~~ 조회
 
 
-# ────────────────────────── 생성 ──────────────────────────
+# 생성 ~~
 def create_post(db: Session, payload, author_id: int) -> Post:
     """
     게시글 생성
@@ -60,9 +61,9 @@ def create_post(db: Session, payload, author_id: int) -> Post:
     db.commit()
     db.refresh(post)
     return post
+# ~~ 생성
 
-
-# ────────────────────────── 수정 ──────────────────────────
+# 수정 ~~
 def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:
     """
     게시글 수정 – 작성자 본인 또는 관리자만 허용
@@ -79,9 +80,10 @@ def update_post(db: Session, post_id: int, payload, requester_id: int) -> Post:
     db.commit()
     db.refresh(post)
     return post
+# ~~ 수정
 
 
-# ────────────────────────── 삭제 ──────────────────────────
+# 삭제 ~~
 def delete_post(db: Session, post_id: int, requester_id: int) -> None:
     """
     게시글 삭제 – 작성자 본인 또는 관리자만 허용
@@ -92,9 +94,10 @@ def delete_post(db: Session, post_id: int, requester_id: int) -> None:
 
     db.delete(post)
     db.commit()
+# ~~ 삭제
 
 
-# ────────────────────────── 내부 헬퍼 ──────────────────────────
+# 내부 헬퍼 ~~
 def _authorize(post: Post, requester_id: int) -> None:
     """
     작성자 본인 또는 관리자 권한 확인
@@ -109,3 +112,4 @@ def _authorize(post: Post, requester_id: int) -> None:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You do not have permission to modify this post",
         )
+# ~~ 내부 헬퍼 
