@@ -34,7 +34,8 @@ pip install -r requirements.txt
 
 ## 3. 환경 변수 설정
 
-`.env.example`을 참고하여 `.env` 파일을 생성하세요. 
+- `.env.example`을 참고하여 `.env` 파일을 생성하세요.
+- `app/core/config.py`의 환경 변수들을 구성하세요.
 
 ---
 
