@@ -27,8 +27,8 @@ class AppSettings(BaseSettings):
     JWT_RF_DAYS: int = 180 # Refresh token의 유효 기간 (단위: 일)
     ALGORITHM: str = "HS256"
  
-    AWS_ACCESS_KEY_ID: str = "myawsaccesskeyid" # TODO: 타입만 지정!
-    AWS_SECRET_ACCESS_KEY: str = "myawssecretaccesskey" # TODO: 타입만 지정!
+    AWS_ACCESS_KEY_ID: str = "myawsaccesskeyid" # TODO: `.env`로 따로 뺀 뒤 타입만 지정!
+    AWS_SECRET_ACCESS_KEY: str = "myawssecretaccesskey" # TODO: `.env`로 따로 뺀 뒤 타입만 지정!
 
     class Config: # 이 오류는 무시해도 ㄱㅊ
         env_file = ".env"
