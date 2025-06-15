@@ -27,7 +27,7 @@ def save_file(db: Session, file: UploadFile, post_id: int, uploader_id: int) -> 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload failed: {e}")
 
-    # 메타정보 DB 기록 (CRUD 레이어로)
+    # 메타데이터 DB 기록 (CRUD 레이어로)
     file_meta = file_crud.create_file_meta(
         db,
         filename=original_name,
@@ -72,5 +72,5 @@ def delete_file(db: Session, file_id: int) -> None:
     if path.exists():
         path.unlink()
 
-    # 메타정보 삭제 (CRUD 레이어로)
+    # 메타데이터 삭제 (CRUD 레이어로)
     file_crud.delete_file_meta(db, meta)
