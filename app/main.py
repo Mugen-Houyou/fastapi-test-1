@@ -19,7 +19,7 @@ async def lifespan(app: FastAPI):
     - 이 블록 진입 시: startup 단계
     - yield 뒤 블록: shutdown 단계
     """
-    
+
     # ───── startup ─────
     # 개발/테스트용 DDL 자동 생성(생략 가능)
     # Base.metadata.create_all(bind=engine)
@@ -33,13 +33,13 @@ async def lifespan(app: FastAPI):
     # ↑ 위는 DDL을 실행함!!!!!!! 한 번만 실행하고 다음에는 반드시 주석 처리!!! ↑ #
     ##################################################################
 
-    print("🚀 Hello! App startup completed.")
+    print("🚀 Hello! Startup completed.")
 
     yield
     # ───── shutdown ────
     # 예: 커넥션 풀 정리, 임시 파일 제거
     # await cache.close()
-    print("😴 Bye! App shutdown completed.")
+    print("😴 Bye! Now shutting down...")
 
 
 # FastAPI 인스턴스 생성
