@@ -20,6 +20,7 @@ class AppSettings(BaseSettings):
     MAX_UPLOAD_MB: int = 20 # 업로드 최대 사이즈 (단위: MB)
 
     DB_URL: str  # 타입만 지정! 실제 값은 `.env`에! 혹시 MySQLDsn 등을 쓰려면, `MySQLDsn = "mysql+pymysql://admin:root@127.0.0.1:3306/admin"` 같은 식으로.
+    DB_TEST_URL: str  # 타입만 지정! 실제 값은 `.env`에!
 
     JWT_ACCESS_SECRET_KEY: str  # 타입만 지정! 실제 값은 `.env`에!
     JWT_REFRESH_SECRET_KEY: str  # 타입만 지정! 실제 값은 `.env`에!

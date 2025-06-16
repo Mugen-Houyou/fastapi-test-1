@@ -78,6 +78,7 @@ app = FastAPI(
 origins = [
     "http://localhost",
     "http://localhost:3000", # 배포 시 프론트엔드 주소 - maybe?
+    "http://localhost:8080", # 배포 시 프론트엔드 주소 - maybe?
     "http://localhost:8000",
 ]
 

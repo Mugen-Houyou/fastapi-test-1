@@ -3,11 +3,12 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from app.core.config import settings
+
 # Set up env vars for config before importing app
-test_db_url = "sqlite:///./test.db"
-os.environ.setdefault("DB_URL", test_db_url)
-os.environ.setdefault("JWT_ACCESS_SECRET_KEY", "testaccess")
-os.environ.setdefault("JWT_REFRESH_SECRET_KEY", "testrefresh")
+os.environ.setdefault("DB_TEST_URL", settings.DB_TEST_URL)
+os.environ.setdefault("JWT_ACCESS_SECRET_KEY", settings.JWT_ACCESS_SECRET_KEY)
+os.environ.setdefault("JWT_REFRESH_SECRET_KEY", settings.JWT_ACCESS_SECRET_KEY)
 
 if os.path.exists("./test.db"):
     os.remove("./test.db")
@@ -19,7 +20,7 @@ from app.db.models.board import Board
 
 # Use SQLite database for testing
 TEST_ENGINE = create_engine(
-    os.environ["DB_URL"], connect_args={"check_same_thread": False}
+    os.environ["DB_TEST_URL"], connect_args={"check_same_thread": False}
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=TEST_ENGINE)
 
