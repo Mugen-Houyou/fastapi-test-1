@@ -1,14 +1,14 @@
 # 게시판 백엔드 프로젝트 (Windows 환경 안내)
 
-FastAPI + MySQL 기반 다중 게시판 REST API 서버 프로젝트입니다.
+FastAPI + MySQL 기반 게시판 서비스 백엔드입니다. 현재 Redis 기반 WebSocket 채팅 기능을 구현 중입니다.
 
 ---
 
 ## 요구사항
 
-- Python 3.10 이상
+- Python 3.11 이상
 - MySQL 8.0 이상
-- 가상환경(venv) 사용 권장
+- pip 등 가상환경(venv) 사용 권장
 
 ---
 
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 
 ## 4. 데이터베이스 준비
 
-MySQL에 접속하여 데이터베이스를 생성합니다.
+MySQL 기준으로, 아래와 같은 식으로 DB를 생성하세요.
 
 ```sql
 CREATE DATABASE <데이터베이스명> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -89,4 +89,4 @@ http://localhost:8000/docs
 
 ## 문의
 
-프로젝트 관련 문의는 GitHub 이슈나 이메일로 연락 부탁드립니다.
+프로젝트 관련 문의는 GitHub 이슈나 이메일로 부탁 드립니다.

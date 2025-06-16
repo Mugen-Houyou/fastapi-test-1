@@ -1,12 +1,12 @@
 # 게시판 백엔드 프로젝트
 
-FastAPI + MySQL 기반 다중 게시판 REST API 서버 프로젝트입니다.
+FastAPI + MySQL 기반 게시판 서비스 백엔드입니다. 현재 Redis 기반 WebSocket 채팅 기능을 구현 중입니다.
 
 ---
 
 ## 요구사항
 
-- Python 3.10 이상
+- Python 3.11 이상
 - MySQL 8.0 이상
 - Poetry 또는 pip (가상환경 권장)
 
@@ -73,9 +73,26 @@ uvicorn app.main:app --reload
 
 ---
 
-## 7. Docs 참조
+## 7. API 문서 확인
 
+웹 브라우저에서 다음 주소에 접속하세요.
+
+```
 http://localhost:8000/docs
+```
 
+---
 
+## 8. 주요 명령어
 
+| 명령어                             | 설명                    |
+|----------------------------------|-------------------------|
+| `uvicorn app.main:app --reload`  | 개발용 서버 실행         |
+| `alembic revision --autogenerate -m "메시지"` | 마이그레이션 생성  |
+| `alembic upgrade head`            | 최신 마이그레이션 적용    |
+
+---
+
+## 문의
+
+프로젝트 관련 문의는 GitHub 이슈나 이메일로 부탁 드립니다.
