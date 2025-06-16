@@ -90,13 +90,24 @@ def test_create_post():
 
 
 def test_get_all_boards():
-    # ensure at least one board exists
+    token = signup_and_login("board_user")
+    headers = {"Authorization": f"Bearer {token}"}
+
     with TestingSessionLocal() as db:
         board = create_board(db, name="general2")
-        name = board.name
+        board_id = board.id
+
+    post_data = {"title": "hello", "content": "world", "board_id": board_id}
+    r = client.post(
+        f"/api/v1/posts/boards/{board_id}/posts",
+        json=post_data,
+        headers=headers,
+    )
+    assert r.status_code == 201
 
     r = client.get("/api/v1/boards/all_boards")
     assert r.status_code == 200
     data = r.json()
-    assert any(b["name"] == name for b in data)
-    assert "created_at" in data[0]
+    board_data = next(b for b in data if b["id"] == board_id)
+    assert board_data["posts"] == 1
+    assert "created_at" in board_data
