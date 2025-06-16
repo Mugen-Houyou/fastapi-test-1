@@ -15,7 +15,7 @@ FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서�
 
 ## 1. 프로젝트 클론 및 가상환경 설정
 
-- **UNIX-like (macOS, Linux 등)**:
+- **POSIX-compliant (macOS, Linux 등)**:
 
 ```bash
 cd <이_프로젝트_폴더>
