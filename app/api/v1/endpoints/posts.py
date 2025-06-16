@@ -41,8 +41,8 @@ def read_post(
 
 @router.post("/boards/{board_id}/posts", response_model=PostOut, status_code=status.HTTP_201_CREATED)
 def create_post(
-    board_id: int = Path(..., gt=0),
     payload: PostCreate,
+    board_id: int = Path(..., gt=0),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
@@ -52,9 +52,9 @@ def create_post(
 
 @router.put("/boards/{board_id}/posts/{post_id}", response_model=PostOut)
 def update_post(
-    board_id: int = Path(..., gt=0),
     post_id: int,
     payload: PostUpdate,
+    board_id: int = Path(..., gt=0),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
@@ -65,8 +65,8 @@ def update_post(
 
 @router.delete("/boards/{board_id}/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(
-    board_id: int = Path(..., gt=0),
     post_id: int,
+    board_id: int = Path(..., gt=0),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
