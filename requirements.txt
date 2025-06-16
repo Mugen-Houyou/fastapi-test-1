@@ -30,3 +30,6 @@ typing_extensions==4.14.0
 uvicorn==0.34.3
 websockets
 redis==5.0.4
+pytest
+httpx
+email-validator
