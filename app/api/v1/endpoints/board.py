@@ -18,3 +18,8 @@ def create_board(payload: BoardCreate, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[BoardOut])
 def get_boards(db: Session = Depends(get_db)):
     return db.query(Board).all()
+
+
+@router.get("/all_boards", response_model=list[BoardOut])
+def list_all_boards(db: Session = Depends(get_db)):
+    return db.query(Board).all()

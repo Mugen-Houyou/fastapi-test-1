@@ -41,8 +41,8 @@ app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
 
-def create_board(db):
-    board = Board(name="general", description="test board")
+def create_board(db, name="general"):
+    board = Board(name=name, description="test board")
     db.add(board)
     db.commit()
     db.refresh(board)
@@ -87,3 +87,16 @@ def test_create_post():
     r = client.get(f"/api/v1/posts/boards/{board_id}/posts/{post_id}")
     assert r.status_code == 200
     assert r.json()["title"] == "Hello"
+
+
+def test_get_all_boards():
+    # ensure at least one board exists
+    with TestingSessionLocal() as db:
+        board = create_board(db, name="general2")
+        name = board.name
+
+    r = client.get("/api/v1/boards/all_boards")
+    assert r.status_code == 200
+    data = r.json()
+    assert any(b["name"] == name for b in data)
+    assert "created_at" in data[0]

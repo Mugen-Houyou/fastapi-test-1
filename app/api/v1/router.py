@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from .endpoints  import auth, users, posts, comments, files, ws
+from .endpoints  import auth, users, posts, comments, files, ws, board
 
 api_router = APIRouter()
 
@@ -25,6 +25,13 @@ api_router.include_router(
     posts.router,
     prefix="/posts",
     tags=["Posts"],
+)
+
+# Board routes (/api/v1/boards)
+api_router.include_router(
+    board.router,
+    prefix="/boards",
+    tags=["Boards"],
 )
 
 # Comment & Reply routes
