@@ -1,6 +1,6 @@
 # WebSocket 채팅 테스트 가이드
 
-이 문서는 프로젝트에 새로 추가된 WebSocket 채팅 기능을 간단하게 테스트하는 방법을 설명합니다.
+프로젝트에 새로이 추가된 WebSocket 채팅 기능을 간단하게 테스트하는 방법을 설명합니다.
 
 ---
 
@@ -54,16 +54,14 @@ uvicorn app.main:app --reload
 
 ## 3. CLI 도구(wscat) 사용 예시
 
-`wscat` 이나 `websocat` 같은 WebSocket 클라이언트 도구를 설치했다면 터미널에서 바로 테스트할 수도 있습니다.
+`wscat` 이나 [`websocat`](https://github.com/vi/websocat/releases) 같은 WebSocket 클라이언트 도구를 설치했다면 터미널에서 바로 테스트할 수도 있습니다.
 
-예시(`wscat` 설치 필요):
+예시(`websocat` 필요):
+
+![image](https://github.com/user-attachments/assets/86d22c6a-b4c3-4c82-955a-cb0ab5c6036f)
 
 ```bash
-wscat -c ws://localhost:8000/api/v1/ws/chat/general?username=alice
+./websocat.x86_64-unknown-linux-musl  ws://localhost:8000/api/v1/ws/chat/general?username=alice
 ```
 
 새 터미널을 열어 다른 사용자로 접속 후 메시지를 입력하면 서로의 메시지가 실시간으로 전달되는 것을 확인할 수 있습니다.
-
----
-
-이상으로 간단한 WebSocket 채팅 기능 테스트 방법을 소개했습니다.
