@@ -1,7 +1,12 @@
+# app/services/websocket.py
+
+# 이게 과연 app/services에 두는 게 적합한가?
+# TODO: 실시간 서비스가 많아지면 나중에 app/realtime 같은 데다가 빼든지 해야 할 듯.
+
 from fastapi import WebSocket
 from collections import defaultdict
 
-from .redis_client import redis_client
+from ..core.redis_client import redis_client
 
 
 class ConnectionManager:

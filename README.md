@@ -1,13 +1,14 @@
 # 게시판 백엔드 프로젝트
 
-FastAPI + MySQL 기반 게시판 서비스 백엔드입니다. 현재 Redis 기반 WebSocket 채팅 기능을 구현 중입니다.
+FastAPI + MySQL + Redis 기반 게시판 & 실시간 채팅 서비스 백엔드입니다.
 
 ---
 
 ## 요구사항
 
 - Python 3.11 이상
-- MySQL 8.0 이상
+- MySQL 서버 8.0 이상
+- Redis 서버 6.0 이상
 - Poetry 또는 pip (가상환경 권장)
 
 ---
@@ -75,11 +76,13 @@ uvicorn app.main:app --reload
 
 ## 7. API 문서 확인
 
-웹 브라우저에서 다음 주소에 접속하세요.
+웹 브라우저로 다음 주소에 접속하세요.
 
 ```
 http://localhost:8000/docs
 ```
+
+참고: 실시간 채팅 (WebSocket)을 테스트하려면 `README.websocket.md`을 확인하세요. 현재 채팅 기록은 Redis에만 담기며, 이를 MySQL에 보존시키는 기능은 계획 중에 있습니다.
 
 ---
 
