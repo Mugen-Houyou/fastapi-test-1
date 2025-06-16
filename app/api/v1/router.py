@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from .endpoints  import auth, users, posts, comments, files
+from .endpoints  import auth, users, posts, comments, files, ws
 
 api_router = APIRouter()
 
@@ -43,4 +43,10 @@ api_router.include_router(
 api_router.include_router(
     files.router,
     tags=["Files"],
+)
+
+# WebSocket routes
+api_router.include_router(
+    ws.router,
+    tags=["WebSocket"],
 )
