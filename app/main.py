@@ -97,15 +97,13 @@ app.include_router(api_router, prefix="/api/v1")
 async def root():
     return RedirectResponse(url="/docs")
 
+
 # 아래는 deprecated.
+
 # # 이벤트 핸들러: 예시로 DB 커넥션 풀 등 초기화 가능
 # @app.on_event("startup")
 # async def on_startup():
-#     ##################################################################
-#     # ↓ 아래는 개발·테스트 환경에서만 사용! 운영 중 변동은 Alembic 사용 권장! ↓  #
-#     # Base.metadata.create_all(bind=engine)                          #
-#     # ↑ 위는 DDL을 실행함!!!!!!! 한 번만 실행하고 다음에는 반드시 주석 처리!!! ↑ #
-#     ##################################################################
+#     # Base.metadata.create_all(bind=engine) 
 
 #     # 이후 동작을 지정하거나, 없으면 그냥 pass하거나...
 #     # 예) DB 연결 풀 초기화, 외부 서비스 연결, 캐시 warm-up 등

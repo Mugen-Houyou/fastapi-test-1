@@ -2,6 +2,32 @@
 
 FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서비스 백엔드입니다.
 
+## 아키텍처 및 디자인 패턴
+
+도메인과 기능 확장을 고려해서 아래와 같은 계층 구조로 구성하였습니다.
+
+| &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 계층 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 설명 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |
+| ---------------------------------------- | ----------------------------------------------------------------------- |
+| **API (endpoint)**                       | FastAPI 엔드포인트 정의                                                    |
+| **Service**                              | 비즈니스 로직/권한/파일 처리                                                  |
+| **CRUD**                                 | DB 트랜잭션 처리 (SQLAlchemy ORM)                                          |
+| **Schema**                               | 요청/응답 DTO (Pydantic)                                                  |
+| **Model**                                | ORM 모델 (SQLAlchemy)                                                    |
+| **Core/Deps**                            | 보안, JWT, 의존성 주입 (`HTTPBearer`/`OAuth2PasswordBearer` 등)                 |
+| **Tests**                                | 기능 추가 및 변동에 따른 테스트 자동화                                                  |
+
+
+디자인 패턴 관점에서 아래와 같습니다.
+
+| 적용한 설계                                   | 설명                                                                      |
+| ---------------------------------------- | ----------------------------------------------------------------------- |
+| **Repository Pattern**                   | `crud/` 하위에 DB 접근 로직을 캡슐화해 서비스 로직과 분리                                   |
+| **Service Layer Pattern**                | 인증, 권한, 파일 저장 등 비즈니스 로직을 service 계층에 모아 단일 책임 원칙(SRP) 유지                |
+| **DTO Pattern (Pydantic)**               | 입력/출력 스키마를 분리해서 내부 모델 은닉 및 검증 수행                                        |
+| **Dependency Injection**                 | `Depends(get_db)`, `Depends(get_current_user)` 등을 통해 의존성 주입으로 느슨한 결합 유지 |
+| **Forward Declaration & TYPE\_CHECKING** | 순환 참조를 피하면서 ORM 관계를 안전하게 정의                                             |
+
+
 ---
 
 ## 0. 요구사항

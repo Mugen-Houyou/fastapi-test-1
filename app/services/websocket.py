@@ -10,7 +10,9 @@ from ..core.redis_client import redis_client
 
 
 class ConnectionManager:
-    """Manage WebSocket connections per room."""
+    """
+    Manage WebSocket connections per room.
+    """
 
     def __init__(self) -> None:
         self.active_connections: dict[str, list[WebSocket]] = defaultdict(list)
