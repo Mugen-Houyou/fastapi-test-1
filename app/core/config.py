@@ -26,6 +26,8 @@ class AppSettings(BaseSettings):
     JWT_AC_MINS: int = 120 # Access token의 유효 시간 (단위: 분)
     JWT_RF_DAYS: int = 180 # Refresh token의 유효 기간 (단위: 일)
     ALGORITHM: str = "HS256"
+
+    REDIS_URL: str = "redis://localhost:6379/0"
  
     AWS_ACCESS_KEY_ID: str = "myawsaccesskeyid" # TODO: `.env`로 따로 뺀 뒤 타입만 지정!
     AWS_SECRET_ACCESS_KEY: str = "myawssecretaccesskey" # TODO: `.env`로 따로 뺀 뒤 타입만 지정!

@@ -1,6 +1,8 @@
 from fastapi import WebSocket
 from collections import defaultdict
 
+from .redis_client import redis_client
+
 
 class ConnectionManager:
     """Manage WebSocket connections per room."""
@@ -11,6 +13,10 @@ class ConnectionManager:
     async def connect(self, websocket: WebSocket, room_id: str, username: str) -> None:
         await websocket.accept()
         self.active_connections[room_id].append(websocket)
+        # 과거 메시지 전송
+        history = await redis_client.lrange(f"room:{room_id}:messages", 0, -1)
+        for message in history:
+            await websocket.send_text(message)
         await self.send_message(room_id, f"{username} joined!")
 
     async def disconnect(self, websocket: WebSocket, room_id: str, username: str) -> None:
@@ -18,5 +24,6 @@ class ConnectionManager:
         await self.send_message(room_id, f"{username} left!")
 
     async def send_message(self, room_id: str, message: str) -> None:
+        await redis_client.rpush(f"room:{room_id}:messages", message)
         for connection in self.active_connections[room_id]:
             await connection.send_text(message)
