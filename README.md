@@ -1,10 +1,10 @@
 # 게시판 백엔드 프로젝트
 
-FastAPI + MySQL + Redis 기반 게시판 & 실시간 채팅 서비스 백엔드입니다.
+FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서비스 백엔드입니다.
 
 ---
 
-## 요구사항
+## 0. 요구사항
 
 - Python 3.11 이상
 - MySQL 서버 8.0 이상
@@ -15,11 +15,20 @@ FastAPI + MySQL + Redis 기반 게시판 & 실시간 채팅 서비스 백엔드�
 
 ## 1. 프로젝트 클론 및 가상환경 설정
 
+- **UNIX-like (macOS, Linux 등)**:
+
 ```bash
-git clone <레포지토리_URL>
-cd <프로젝트_폴더>
+cd <이_프로젝트_폴더>
 python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
+source venv/bin/activate
+```
+
+- **Windows**:
+
+```powershell
+cd <이_프로젝트_폴더>
+python -m venv venv
+venv\Scripts\activate
 ```
 
 ---
@@ -72,6 +81,8 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
+서버가 `http://localhost:8000` 에서 실행됩니다.
+
 ---
 
 ## 7. API 문서 확인
@@ -82,7 +93,7 @@ uvicorn app.main:app --reload
 http://localhost:8000/docs
 ```
 
-참고: 실시간 채팅 (WebSocket)을 테스트하려면 `README.websocket.md`을 확인하세요. 현재 채팅 기록은 Redis에만 담기며, 이를 MySQL에 보존시키는 기능은 계획 중에 있습니다.
+참고: 실시간 채팅 (WebSocket)을 테스트하려면 `README.websocket.md`을 확인하세요. **현재 채팅 기록은 Redis에만 담기며**, 이를 MySQL에 보존시키는 기능은 계획 중에 있습니다.
 
 ---
 
