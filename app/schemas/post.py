@@ -54,7 +54,7 @@ class PostUpdate(BaseModel):
     """게시글 부분 수정 요청 (모든 필드 Optional)"""
     title: Optional[str] = Field(None, max_length=255)
     content: Optional[str] = None
-    board_id: int  # 게시판 지정 추가!
+    board_id: Optional[int] = None  # 게시판 지정 추가!
 
 
 # 응답(Response)
