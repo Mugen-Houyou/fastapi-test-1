@@ -12,7 +12,9 @@
 uvicorn app.main:app --reload
 ```
 
-기본적으로 서버는 `http://localhost:8000` 에서 동작합니다.
+기본적으로 서버는 `http://localhost:8000` 에서 동작합니다. 메시지 보존을 위해
+로컬 또는 외부 Redis 인스턴스가 필요하며, 연결 주소는 `.env` 파일의
+`REDIS_URL` 로 지정합니다.
 
 ---
 
