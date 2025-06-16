@@ -1,6 +1,6 @@
 # app/api/v1/endpoints/posts.py
 from typing import List, Any
-from fastapi import APIRouter, Depends, Path, Query, UploadFile, File, status
+from fastapi import APIRouter, Depends, Path, Query, UploadFile, File, status, HTTPException
 from sqlalchemy.orm import Session
 
 from app.schemas.post import PostCreate, PostUpdate, PostOut, PostListOut
@@ -29,30 +29,48 @@ def list_posts_by_board(
     return post_crud.get_posts_by_board(db, board_id, page, size)
 
 @router.get("/boards/{board_id}/posts/{post_id}", response_model=PostOut)
-def read_post(post_id: int = Path(..., gt=0), db: Session = Depends(get_db)):
-    return post_crud.get_post(db, post_id)
+def read_post(
+    board_id: int = Path(..., gt=0),
+    post_id: int = Path(..., gt=0),
+    db: Session = Depends(get_db),
+):
+    post = post_crud.get_post(db, post_id)
+    if post.board_id != board_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found in this board")
+    return post
 
 @router.post("/boards/{board_id}/posts", response_model=PostOut, status_code=status.HTTP_201_CREATED)
 def create_post(
+    board_id: int = Path(..., gt=0),
     payload: PostCreate,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
+    if payload.board_id != board_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Board ID mismatch")
     return post_crud.create_post(db, payload, current_user.id)
 
 @router.put("/boards/{board_id}/posts/{post_id}", response_model=PostOut)
 def update_post(
+    board_id: int = Path(..., gt=0),
     post_id: int,
     payload: PostUpdate,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
+    post = post_crud.get_post(db, post_id)
+    if post.board_id != board_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found in this board")
     return post_crud.update_post(db, post_id, payload, current_user.id)
 
 @router.delete("/boards/{board_id}/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(
+    board_id: int = Path(..., gt=0),
     post_id: int,
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user)
 ):
+    post = post_crud.get_post(db, post_id)
+    if post.board_id != board_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found in this board")
     post_crud.delete_post(db, post_id, current_user.id)
