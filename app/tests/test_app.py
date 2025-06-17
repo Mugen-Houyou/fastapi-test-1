@@ -111,3 +111,38 @@ def test_get_all_boards():
     board_data = next(b for b in data if b["id"] == board_id)
     assert board_data["posts"] == 1
     assert "created_at" in board_data
+
+
+def test_post_with_file():
+    token = signup_and_login("file_user")
+    headers = {"Authorization": f"Bearer {token}"}
+
+    with TestingSessionLocal() as db:
+        board = create_board(db, name="fileboard")
+        board_id = board.id
+
+    post_data = {"title": "file", "content": "check", "board_id": board_id}
+    r = client.post(
+        f"/api/v1/posts/boards/{board_id}/posts",
+        json=post_data,
+        headers=headers,
+    )
+    assert r.status_code == 201
+    post_id = r.json()["id"]
+
+    files = {"file": ("hello.txt", b"hello", "text/plain")}
+    r = client.post(
+        f"/api/v1/posts/{post_id}/files",
+        files=files,
+        headers=headers,
+    )
+    assert r.status_code == 201
+    file_id = r.json()["id"]
+    assert r.json()["url"] == f"/api/v1/files/{file_id}/download"
+
+    r = client.get(f"/api/v1/posts/boards/{board_id}/posts/{post_id}")
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data["files"]) == 1
+    assert data["files"][0]["id"] == file_id
+    assert data["files"][0]["url"] == f"/api/v1/files/{file_id}/download"

@@ -32,7 +32,7 @@ class FileMeta(BaseModel):
     url: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # 요청(Request) 
@@ -68,7 +68,7 @@ class PostOut(_PostBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PostListOut(BaseModel):
@@ -80,4 +80,4 @@ class PostListOut(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

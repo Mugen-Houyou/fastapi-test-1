@@ -41,7 +41,7 @@ def save_file(db: Session, file: UploadFile, post_id: int, uploader_id: int) -> 
     return FileOut(
         id=file_meta.id,
         filename=file_meta.filename,
-        # url=file_url,
+        url=f"/api/v1/files/{file_meta.id}/download",
         content_type=file_meta.content_type,
         size=file_meta.size,
         created_at=file_meta.created_at,
