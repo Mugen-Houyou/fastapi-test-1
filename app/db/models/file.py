@@ -71,6 +71,11 @@ class File(Base):
         lazy="joined",
     )
 
+    @property
+    def url(self) -> str:
+        """Download URL for the file."""
+        return f"/api/v1/files/{self.id}/download"
+
     # 메타데이터
     def __repr__(self) -> str:  # pragma: no cover
         return f"<File id={self.id} filename={self.filename!r}>"

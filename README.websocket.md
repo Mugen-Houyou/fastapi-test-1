@@ -29,7 +29,7 @@ uvicorn app.main:app --reload
   <div id="messages"></div>
 
   <script>
-    const roomId = "general"; // 방 이름
+    const roomId = "board_id_1"; // 게시판 ID 기반 방 이름
     const username = prompt("이름 입력:");
     const ws = new WebSocket(`ws://localhost:8000/api/v1/ws/chat/${roomId}?username=${username}`);
 
@@ -61,7 +61,7 @@ uvicorn app.main:app --reload
 ![image](https://github.com/user-attachments/assets/86d22c6a-b4c3-4c82-955a-cb0ab5c6036f)
 
 ```bash
-./websocat.x86_64-unknown-linux-musl  ws://localhost:8000/api/v1/ws/chat/general?username=alice
+./websocat.x86_64-unknown-linux-musl  ws://localhost:8000/api/v1/ws/chat/board_id_2?username=alice
 ```
 
 새 터미널을 열어 다른 사용자로 접속 후 메시지를 입력하면 서로의 메시지가 실시간으로 전달되는 것을 확인할 수 있습니다.

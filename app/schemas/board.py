@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 
 class BoardBase(BaseModel):
@@ -9,6 +10,9 @@ class BoardCreate(BoardBase):
 
 class BoardOut(BoardBase):
     id: int
+    posts: int
+    created_at: datetime
+    room_name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True

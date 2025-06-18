@@ -29,3 +29,8 @@ class Board(Base):
 
     def __repr__(self):
         return f"<Board id={self.id} name={self.name!r}>"
+
+    @property
+    def room_name(self) -> str:
+        """Room name for WebSocket chat."""
+        return f"board_id_{self.id}"

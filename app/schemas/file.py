@@ -10,10 +10,10 @@ from pydantic import BaseModel
 class FileOut(BaseModel):
     id: int
     filename: str
-    # url: str
+    url: str
     content_type: str
     size: int
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
