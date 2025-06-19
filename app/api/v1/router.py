@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from .endpoints  import auth, users, posts, comments, files, ws, board
+from .endpoints  import auth, users, posts, comments, files, ws, board, webrtc
 
 api_router = APIRouter()
 
@@ -56,4 +56,10 @@ api_router.include_router(
 api_router.include_router(
     ws.router,
     tags=["WebSocket"],
+)
+
+# WebRTC signaling routes
+api_router.include_router(
+    webrtc.router,
+    tags=["WebRTC"],
 )
