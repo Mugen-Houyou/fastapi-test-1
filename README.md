@@ -34,7 +34,7 @@ FastAPI + MySQL + Redis 기반으로 구성한 게시판, 실시간 채팅 및 W
 
 - Python 3.11 이상
 - MySQL 서버 8.0 이상
-- Redis 서버 6.0 이상 (AUTH 비밀번호 사용 권장)
+- Redis 서버 6.0 이상 (AUTH 비밀번호 지정 필요)
 - Poetry 또는 pip (가상환경 권장)
 
 ---
