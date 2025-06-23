@@ -1,6 +1,6 @@
 # 게시판 백엔드 프로젝트
 
-FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서비스 백엔드입니다.
+FastAPI + MySQL + Redis 기반으로 구성한 게시판, 실시간 채팅 및 WebRTC 통화 기능을 지원하는 백엔드입니다.
 
 ## 아키텍처 및 디자인 패턴
 
@@ -34,7 +34,7 @@ FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서�
 
 - Python 3.11 이상
 - MySQL 서버 8.0 이상
-- Redis 서버 6.0 이상
+- Redis 서버 6.0 이상 (AUTH 비밀번호 사용 권장)
 - Poetry 또는 pip (가상환경 권장)
 
 ---
@@ -78,6 +78,8 @@ poetry install
 
 - `.env.example`을 참고하여 `.env` 파일을 생성하세요.
 - `app/core/config.py`의 환경 변수들을 구성하세요.
+- Redis 서버를 실행할 때는 반드시 인증 비밀번호(`requirepass`)를 설정하고
+  `.env`의 `REDIS_AUTH_PASSWORD` 값과 동일하게 맞춰 주세요.
 
 ---
 
@@ -120,6 +122,7 @@ http://localhost:8000/docs
 ```
 
 참고: 실시간 채팅 (WebSocket)을 테스트하려면 `README.websocket.md`을 확인하세요. **현재 채팅 기록은 Redis에만 담기며**, 이를 MySQL에 보존시키는 기능은 계획 중에 있습니다.
+또한 WebRTC 기반 음성/영상 통화 기능도 제공합니다. 자세한 사용 방법은 `README.webrtc.md`를 참고하세요.
 
 ---
 
