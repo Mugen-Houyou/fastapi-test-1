@@ -34,7 +34,7 @@ FastAPI + MySQL + Redis 기반으로 구성한 게시판 & 실시간 채팅 서�
 
 - Python 3.11 이상
 - MySQL 서버 8.0 이상
-- Redis 서버 6.0 이상
+- Redis 서버 6.0 이상 (AUTH 비밀번호 사용 권장)
 - Poetry 또는 pip (가상환경 권장)
 
 ---
@@ -78,6 +78,8 @@ poetry install
 
 - `.env.example`을 참고하여 `.env` 파일을 생성하세요.
 - `app/core/config.py`의 환경 변수들을 구성하세요.
+- Redis 서버를 실행할 때는 반드시 인증 비밀번호(`requirepass`)를 설정하고
+  `.env`의 `REDIS_AUTH_PASSWORD` 값과 동일하게 맞춰 주세요.
 
 ---
 
