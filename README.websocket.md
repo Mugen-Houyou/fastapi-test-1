@@ -6,13 +6,7 @@
 
 ## 1. 서버 실행
 
-먼저 의존성 설치와 환경 변수 설정이 끝났다면 다음 명령으로 서버를 실행합니다.
-
-```bash
-uvicorn app.main:app --reload
-```
-
-기본적으로 서버는 `http://localhost:8000` 에서 동작합니다. 메시지 보존을 위해 로컬 또는 외부 Redis 인스턴스가 필요하며, 연결 주소는 `.env` 파일의 `REDIS_URL` 로 지정합니다.
+별도의 커맨드 없이 `uvicorn app.main:app --reload`로 본서버를 실행하면 작동합니다. 메시지 보존을 위해 로컬 또는 외부 Redis 인스턴스가 필요하며, 연결 주소는 `.env` 파일의 `REDIS_URL` 로 지정합니다. Redis 인스턴스 구성 시 auth 패스워드를 지정하여야 하며, 지정한 패스워드는 `.env` 파일의 `REDIS_AUTH_PASSWORD`에도 넣으면 됩니다.
 
 ---
 
