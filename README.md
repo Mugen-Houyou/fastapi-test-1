@@ -122,6 +122,7 @@ http://localhost:8000/docs
 ```
 
 참고: 실시간 채팅 (WebSocket)을 테스트하려면 `README.websocket.md`을 확인하세요. **현재 채팅 기록은 Redis에만 담기며**, 이를 MySQL에 보존시키는 기능은 계획 중에 있습니다.
+또한 WebRTC 기반 음성/영상 통화 기능도 제공합니다. 자세한 사용 방법은 `README.webrtc.md`를 참고하세요.
 
 ---
 
