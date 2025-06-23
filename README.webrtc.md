@@ -6,13 +6,13 @@
 
 ## 1. 서버 실행
 
-기존 WebSocket 채팅 기능과 동일하게 `uvicorn app.main:app --reload` 명령으로 실행합니다.
+별도의 커맨드 없이 `uvicorn app.main:app --reload`로 본서버를 실행하면 작동합니다.
 
 ---
 
 ## 2. 예시 HTML
 
-아래 코드를 `call.html` 파일로 저장 후 브라우저에서 열면 두 브라우저 간 통화를 시험해 볼 수 있습니다.
+아래 코드를 `call.html` 파일로 저장 후 브라우저에서 열면 두 브라우저 간 통화를 시험해볼 수 있습니다.
 
 ```html
 <!DOCTYPE html>
